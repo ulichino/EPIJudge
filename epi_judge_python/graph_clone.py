@@ -12,8 +12,17 @@ class GraphVertex:
 
 
 def clone_graph(graph: GraphVertex) -> GraphVertex:
-    # TODO - you fill in here.
-    return GraphVertex(0)
+    queue = collections.deque([graph])
+    hash_map = {}
+    hash_map[graph] = GraphVertex(graph.label)
+    while queue:
+        vertex = queue.popleft()
+        for edge in vertex.edges:
+            if edge not in hash_map:
+                hash_map[edge] = GraphVertex(edge.label)
+                queue.append(edge)
+            hash_map[vertex].edges.append(hash_map[edge])
+    return hash_map[graph]
 
 
 def copy_labels(edges):
